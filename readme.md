@@ -6,4 +6,14 @@ The script runs on a file called "bloomberg_article.txt" and outputs the formatt
 
 The "bloomberg_article.txt" can contain as many articles as required.
 
-Some light formatting may be required at the end.
+When including multiple articles, seperate each with **five asterisks**.
+
+E.g.:
+
+Article 1
+
+*****
+
+Article 2
+
+Some light manual formatting will be required at the end.
