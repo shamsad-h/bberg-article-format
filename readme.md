@@ -15,5 +15,3 @@ Article 1
 +++++
 
 Article 2
-
-Some light manual formatting will be required at the end.
