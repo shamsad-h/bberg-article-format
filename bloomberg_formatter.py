@@ -1,4 +1,7 @@
 import re
+import timeit
+
+start = timeit.default_timer()
 
 with open('bloomberg_article.txt', 'r', encoding='utf-8') as f:
     out = f.read()
@@ -6,13 +9,24 @@ with open('bloomberg_article.txt', 'r', encoding='utf-8') as f:
 abbrvs = ['Inc.', 'E.g.', 'e.g.', 'Ltd.', 'St.', 'Ave.', 'Blvd.', 'Corp.', 'Mr.', 'Mrs.', 'U.S.', 'U.S.A.', 'U.K.', 'Dr.']
 leads = ["(Bloomberg) -- ", "(Bloomberg Opinion) -- ", "(Bloomberg Businessweek) -- ", "(Dow Jones) -- "]
 
+datestamp = '\d+-\d+-\d+\s'
+timestamp = '\d+:\d+:\d+.\d+\sGMT'
+
+number = len(re.findall(timestamp, out))
+
 out = out.replace('\n\n', '+++++')
 out = re.sub('(?<![."”?!])\s*\n', ' ', out)
+out = re.sub(timestamp, '', out)
+
+p = re.compile(datestamp) 
+dates = p.findall(out)
 
 for a in abbrvs:
     out = out.replace(a+'\n', a+' ')
 for l in leads:
     out = out.replace(l, '\n')
+for d in dates:
+    out = out.replace(d, '\n'+d)
 
 out = out.replace('+++++', '\n')
 
@@ -28,3 +42,8 @@ new_contents = new_contents.replace('\n', '\n\n')
 
 with open('bloomberg_article_formatted.txt', 'w', encoding='utf-8') as f:
     f.write(new_contents)
+
+stop = timeit.default_timer()
+runtime = round((stop - start), 3)
+
+print(number, "articles formatted in", runtime, "seconds.")
