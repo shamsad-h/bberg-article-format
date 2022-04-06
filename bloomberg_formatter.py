@@ -1,7 +1,4 @@
 import re
-import timeit
-
-start = timeit.default_timer()
 
 with open('bloomberg_article.txt', 'r', encoding='utf-8') as f:
     out = f.read()
@@ -11,8 +8,6 @@ leads = ["(Bloomberg) -- ", "(Bloomberg Opinion) -- ", "(Bloomberg Businessweek)
 
 datestamp = '\d+-\d+-\d+\s'
 timestamp = '\d+:\d+:\d+.\d+\sGMT'
-
-number = len(re.findall(timestamp, out))
 
 out = out.replace('\n\n', '+++++')
 out = re.sub('(?<![."”?!])\s*\n', ' ', out)
@@ -42,8 +37,3 @@ new_contents = new_contents.replace('\n', '\n\n')
 
 with open('bloomberg_article_formatted.txt', 'w', encoding='utf-8') as f:
     f.write(new_contents)
-
-stop = timeit.default_timer()
-runtime = round((stop - start), 3)
-
-print(number, "articles formatted in", runtime, "seconds.")
